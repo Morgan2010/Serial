@@ -73,7 +73,7 @@
 
 // Opens the specified serial port, configures its timeouts, and sets its
 // baud rate.  Returns a handle on success, or INVALID_HANDLE_VALUE on failure.
-HANDLE_TYPE open_serial_port(const char * device, CSERIAL_CONFIGURATION_TYPE configuration) {
+HANDLE_TYPE CSERIAL_open_serial_port(const char * device, CSERIAL_CONFIGURATION_TYPE configuration) {
     HANDLE_TYPE fd = open(device, CSERIAL_posix_mode(configuration.mode));
     if (fd < 0)
         CSERIAL_exit(EXIT_FAILURE);
@@ -81,12 +81,16 @@ HANDLE_TYPE open_serial_port(const char * device, CSERIAL_CONFIGURATION_TYPE con
     return fd;
 }
 
-SIZE_TYPE write_port(HANDLE_TYPE port, uint8_t *data, size_t size) {
+SIZE_TYPE CSERIAL_write_port(HANDLE_TYPE port, uint8_t *data, SIZE_TYPE size) {
     return (SIZE_TYPE)(write(port, data, size));
 }
 
-SIZE_TYPE read_port(HANDLE_TYPE port, uint8_t * buffer, size_t size) {
+SIZE_TYPE CSERIAL_read_port(HANDLE_TYPE port, uint8_t * buffer, SIZE_TYPE size) {
     return (SIZE_TYPE)(read(port, buffer, size));
+}
+
+void CSERIAL_close_port(HANDLE_TYPE port) {
+    close((int)(port));
 }
 
 int CSERIAL_posix_mode(CSERIAL_FILEMODE_TYPE mode) {

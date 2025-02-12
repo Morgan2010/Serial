@@ -69,20 +69,20 @@ extern "C" {
 /// baud rate.  Returns a handle on success, or INVALID_HANDLE_VALUE on failure.
 /// - device: The name of the serial port to open.
 /// - configuration: The configuration to use for the serial port.
-HANDLE_TYPE open_serial_port(const char *, CSERIAL_CONFIGURATION_TYPE);
+HANDLE_TYPE CSERIAL_open_serial_port(const char *, CSERIAL_CONFIGURATION_TYPE);
 
 /// Writes bytes to the serial port, returning number of bytes written on success and -1 on failure.
-SIZE_TYPE write_port(HANDLE_TYPE port, uint8_t *, size_t);
+SIZE_TYPE CSERIAL_write_port(HANDLE_TYPE port, uint8_t *, SIZE_TYPE);
 
 /// Reads bytes from the serial port.
 /// Returns after all the desired bytes have been read, or if there is a
 /// timeout or other error.
 /// Returns the number of bytes successfully read into the buffer, or -1 if
 /// there was an error reading.
-SIZE_TYPE read_port(HANDLE_TYPE port, uint8_t * buffer, size_t size);
+SIZE_TYPE CSERIAL_read_port(HANDLE_TYPE port, uint8_t * buffer, SIZE_TYPE size);
 
 /// Closes the specified handle to the serial port.
-void close_port(HANDLE_TYPE port);
+void CSERIAL_close_port(HANDLE_TYPE port);
 
 #if defined(__WIN32) || defined(WIN32)
 
