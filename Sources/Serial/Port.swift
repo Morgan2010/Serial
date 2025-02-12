@@ -55,12 +55,16 @@
 
 import CSerial
 
-public class Port {
+public class Port: Equatable {
 
     let handle: HANDLE_TYPE
 
     init(handle: HANDLE_TYPE) {
         self.handle = handle
+    }
+
+    public static func == (lhs: Port, rhs: Port) -> Bool {
+        lhs.handle == rhs.handle
     }
 
     public func read(into buffer: UnsafeMutablePointer<UInt8>, size: SIZE_TYPE) throws -> SIZE_TYPE {

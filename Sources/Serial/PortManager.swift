@@ -58,7 +58,7 @@ import Foundation
 
 public actor PortManager {
 
-    struct PortReference {
+    struct PortReference: Equatable {
 
         weak var port: Port?
 
