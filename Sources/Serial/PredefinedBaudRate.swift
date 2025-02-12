@@ -172,4 +172,44 @@ public enum PredefinedBaudRate: CTypeConvertible, Equatable, Hashable, Codable, 
         }
     }
 
+    /// Initialise the PredefinedBaudRate from an integer baud rate.
+    /// 
+    /// If the baud rate is not within the predefined values, then a value of `nil` is returned.
+    /// - Parameter baudRate: The baud rate to initialise from.
+    @inlinable
+    public init?(baudRate: UInt32) {
+        switch baudRate {
+        case 110:
+            self = .baud110
+        case 300:
+            self = .baud300
+        case 600:
+            self = .baud600
+        case 1200:
+            self = .baud1200
+        case 2400:
+            self = .baud2400
+        case 4800:
+            self = .baud4800
+        case 9600:
+            self = .baud9600
+        case 14400:
+            self = .baud14400
+        case 19200:
+            self = .baud19200
+        case 38400:
+            self = .baud38400
+        case 57600:
+            self = .baud57600
+        case 115200:
+            self = .baud115200
+        case 128000:
+            self = .baud128000
+        case 256000:
+            self = .baud256000
+        default:
+            return nil
+        }
+    }
+
 }

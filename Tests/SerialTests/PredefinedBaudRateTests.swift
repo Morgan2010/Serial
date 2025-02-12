@@ -99,4 +99,26 @@ struct PredefinedBaudRateTests {
         #expect(PredefinedBaudRate(ctype: CSERIAL_256000) == .baud256000)
     }
 
+    /// Test creation from integer values.
+    @Test
+    func testIntegerInit() {
+        #expect(PredefinedBaudRate(baudRate: 110) == .baud110)
+        #expect(PredefinedBaudRate(baudRate: 300) == .baud300)
+        #expect(PredefinedBaudRate(baudRate: 600) == .baud600)
+        #expect(PredefinedBaudRate(baudRate: 1200) == .baud1200)
+        #expect(PredefinedBaudRate(baudRate: 2400) == .baud2400)
+        #expect(PredefinedBaudRate(baudRate: 4800) == .baud4800)
+        #expect(PredefinedBaudRate(baudRate: 9600) == .baud9600)
+        #expect(PredefinedBaudRate(baudRate: 14400) == .baud14400)
+        #expect(PredefinedBaudRate(baudRate: 19200) == .baud19200)
+        #expect(PredefinedBaudRate(baudRate: 38400) == .baud38400)
+        #expect(PredefinedBaudRate(baudRate: 57600) == .baud57600)
+        #expect(PredefinedBaudRate(baudRate: 115200) == .baud115200)
+        #expect(PredefinedBaudRate(baudRate: 128000) == .baud128000)
+        #expect(PredefinedBaudRate(baudRate: 256000) == .baud256000)
+        #expect(PredefinedBaudRate(baudRate: 0) == nil)
+        #expect(PredefinedBaudRate(baudRate: UInt32.max) == nil)
+        #expect(PredefinedBaudRate(baudRate: 111) == nil)
+    }
+
 }
