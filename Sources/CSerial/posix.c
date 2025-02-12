@@ -81,6 +81,14 @@ HANDLE_TYPE open_serial_port(const char * device, CSERIAL_CONFIGURATION_TYPE con
     return fd;
 }
 
+SIZE_TYPE write_port(HANDLE_TYPE port, uint8_t *data, size_t size) {
+    return (SIZE_TYPE)(write(port, data, size));
+}
+
+SIZE_TYPE read_port(HANDLE_TYPE port, uint8_t * buffer, size_t size) {
+    return (SIZE_TYPE)(read(port, buffer, size));
+}
+
 int CSERIAL_posix_mode(CSERIAL_FILEMODE_TYPE mode) {
     switch (mode)
     {
