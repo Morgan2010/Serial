@@ -135,4 +135,17 @@ struct ConfigurationTests {
         #expect(configuration == self.configuration)
     }
 
+    /// Test 8N1 configuration.
+    @Test
+    func test8N1() {
+        let configuration = Configuration.configure8N1(baudRate: self.baudRate)
+        #expect(configuration.mode == .readWrite)
+        #expect(configuration.parity == .none)
+        #expect(configuration.baudRate == self.baudRate)
+        #expect(configuration.dataBits == 8)
+        #expect(configuration.stopBits == 1)
+        #expect(configuration.hardwareFlowControl == .none)
+        #expect(!configuration.useSoftwareFlowControl)
+    }
+
 }

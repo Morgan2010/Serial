@@ -135,4 +135,20 @@ public struct Configuration: CTypeConvertible, Equatable, Hashable, Codable, Sen
         )
     }
 
+    /// Configure the serial port with 8 data bits, no parity and 1 stop bit.
+    /// - Parameter baudRate: The baud rate to configure the port with.
+    /// - Returns: A configuration for the serial port.
+    @inlinable
+    static func configure8N1(baudRate: BaudRate) -> Configuration {
+        Configuration(
+            mode: .readWrite,
+            parity: .none,
+            baudRate: baudRate,
+            dataBits: 8,
+            stopBits: 1,
+            hardwareFlowControl: .none,
+            useSoftwareFlowControl: false
+        )
+    }
+
 }
