@@ -56,7 +56,7 @@
 import CSerial
 
 /// A predefined baud rate for a serial port.
-public enum PredefinedBaudRate: CTypeConvertible {
+public enum PredefinedBaudRate: CTypeConvertible, Equatable, Hashable, Codable, Sendable {
 
     /// 110 baud.
     case baud110

@@ -56,7 +56,7 @@
 import CSerial
 
 /// The mode in which to open a file.
-public enum FileMode: CTypeConvertible {
+public enum FileMode: CTypeConvertible, Equatable, Hashable, Codable, Sendable {
 
     /// A read-only mode.
     case read

@@ -56,7 +56,7 @@
 import CSerial
 
 /// The type of parity within a serial port.
-public enum Parity: CTypeConvertible {
+public enum Parity: CTypeConvertible, Equatable, Hashable, Codable, Sendable {
 
     /// No parity.
     case none
