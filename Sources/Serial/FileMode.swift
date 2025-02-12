@@ -54,7 +54,6 @@
 // Fifth Floor, Boston, MA  02110-1301, USA.
 
 import CSerial
-import Foundation
 
 /// The mode in which to open a file.
 public enum FileMode: CTypeConvertible {
