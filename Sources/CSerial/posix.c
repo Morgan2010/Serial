@@ -147,8 +147,8 @@ tcflag_t CSERIAL_stop_bits(uint32_t stop_bits)
 tcflag_t CSERIAL_hardware_flow_control_cflag(CSERIAL_HARDWARE_FLOW_CONTROL_TYPE use_hardware_flow_control) {
     switch (use_hardware_flow_control)
     {
-        case CSERIAL_RTS_CTS_CD: return 0;
-        default: return CLOCAL;
+        case CSERIAL_RTS_CTS_CD: return CREAD | ~CLOCAL;
+        default: return CREAD | CLOCAL;
     }
 }
 
@@ -164,16 +164,43 @@ void CSERIAL_initialise(HANDLE_TYPE fd, CSERIAL_CONFIGURATION_TYPE configuration
     cfsetispeed(&tty, baud_rate);
     if (configuration.data_bits < 5 || configuration.data_bits > 8)
         exit(EXIT_FAILURE);
+    
+    // Set data bits.
     tty.c_cflag &= ~CSIZE;
     tty.c_cflag |= CSERIAL_data_bits(configuration.data_bits);
+    // Set stop bits.
     tty.c_cflag &= ~CSTOPB;
     if (configuration.stop_bits != 1 || configuration.stop_bits != 2)
         exit(EXIT_FAILURE);
     const tcflag_t stop_bits = CSERIAL_stop_bits(configuration.stop_bits);
     tty.c_cflag |= stop_bits;
+    // Set parity bits.
     tty.c_cflag &= ~PARENB;
     tty.c_cflag |= CSERIAL_parity(configuration.parity);
+    // Set hardware flow control (RTS/CTS and CD lines).
     tty.c_cflag |= CSERIAL_hardware_flow_control_cflag(configuration.hardware_flow_control);
+    // Disable canonical mode (i.e. never wait for newlines).
+    tty.c_lflag &= ~ICANON;
+    tty.c_lflag &= ~ECHO;
+    tty.c_lflag &= ~ECHOE;
+    tty.c_lflag &= ~ECHONL;
+    tty.c_lflag &= ~ISIG;
+    // Set software flow control.
+    if (configuration.use_software_flow_control)
+    {
+        tty.c_iflag |= (IXON | IXOFF | IXANY);
+    } else
+    {
+        tty.c_iflag &= ~(IXON | IXOFF | IXANY);
+    }
+    // Turn off output byte processing (don't convert chars e.g. CRLF to LF).
+    tty.c_oflag &= ~OPOST;
+    tty.c_oflag &= ~ONLCR;
+    // Set timeouts to 0 - polling approach.
+    tty.c_cc[VTIME] = 0;
+    tty.c_cc[VMIN] = 0;
+    if (tcsetattr(fd, TCSANOW, &tty) != 0)
+        CSERIAL_exit(errno);
 }
 
 int CSERIAL_parity(CSERIAL_PARITY_TYPE parity) {
