@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "cstdint": "c",
+        "posix.h": "c",
+        "types.h": "c"
+    }
+}
