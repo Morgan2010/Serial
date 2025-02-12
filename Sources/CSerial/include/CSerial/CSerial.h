@@ -71,8 +71,8 @@ extern "C" {
 /// - configuration: The configuration to use for the serial port.
 HANDLE_TYPE open_serial_port(const char *, CSERIAL_CONFIGURATION_TYPE);
 
-/// Writes bytes to the serial port, returning 0 on success and -1 on failure.
-int write_port(HANDLE_TYPE port, uint8_t *, size_t);
+/// Writes bytes to the serial port, returning number of bytes written on success and -1 on failure.
+SIZE_TYPE write_port(HANDLE_TYPE port, uint8_t *, size_t);
 
 /// Reads bytes from the serial port.
 /// Returns after all the desired bytes have been read, or if there is a
