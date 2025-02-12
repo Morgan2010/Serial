@@ -13,18 +13,19 @@ let package = Package(
             name: "Serial",
             targets: ["Serial", "CSerial"]
         ),
-        .library(name: "serial", targets: ["CSerial"])
+        .library(name: "CSerial", targets: ["CSerial"])
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(name: "CSerial"),
         .target(
-            name: "Serial"
+            name: "Serial",
+            dependencies: [.target(name: "CSerial")]
         ),
         .testTarget(
             name: "SerialTests",
-            dependencies: [.target(name: "Serial")]
+            dependencies: [.target(name: "Serial"), .target(name: "CSerial")]
         ),
     ]
 )
