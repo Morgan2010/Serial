@@ -56,29 +56,33 @@
 import CSerial
 import Foundation
 
-public enum FileMode: Int, CTypeConvertible {
+/// The mode in which to open a file.
+public enum FileMode: CTypeConvertible {
 
-    case read = 0
-    case write = 1
-    case readWrite = 2
+    /// A read-only mode.
+    case read
 
+    /// A write-only mode.
+    case write
+
+    /// A mode supporting both reading and writing.
+    case readWrite
+
+    /// The equivalent C type for this file mode.
     @inlinable public var ctype: CSERIAL_FileMode {
-        CSERIAL_FILEMODE_TYPE(UInt32(self.rawValue))
-    }
-
-    public init?(rawValue: Int) {
-        switch rawValue {
-        case 0:
-            self = .read
-        case 1:
-            self = .write
-        case 2:
-            self = .readWrite
-        default:
-            return nil
+        switch self {
+        case .read:
+            return CSERIAL_READ
+        case .write:
+            return CSERIAL_WRITE
+        case .readWrite:
+            return CSERIAL_READ_WRITE
         }
     }
 
+    /// Initialise the FileMode from it's corresponding C Type.
+    /// - Parameter ctype: The C type to initialise from.
+    @inlinable
     public init(ctype: CSERIAL_FileMode) {
         switch ctype {
         case CSERIAL_READ:

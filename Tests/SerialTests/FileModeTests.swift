@@ -1,4 +1,4 @@
-// CTypeConvertible.swift
+// FileModeTests.swift
 // Serial
 // 
 // Created by Morgan McColl.
@@ -53,17 +53,28 @@
 // or write to the Free Software Foundation, Inc., 51 Franklin Street,
 // Fifth Floor, Boston, MA  02110-1301, USA.
 
-/// A protocol for defining containers of types existing within the C layer.
-public protocol CTypeConvertible {
+import CSerial
+@testable import Serial
+import Testing
 
-    /// The underlying C Type.
-    associatedtype CType
+/// Test suite for the `FileMode` type.
+@Suite
+struct FileModeTests {
 
-    /// Get an instance of the underlying C Type.
-    var ctype: CType { get }
+    /// Test the CType is generated correctly.
+    @Test
+    func testCType() {
+        #expect(FileMode.read.ctype == CSERIAL_READ)
+        #expect(FileMode.write.ctype == CSERIAL_WRITE)
+        #expect(FileMode.readWrite.ctype == CSERIAL_READ_WRITE)
+    }
 
-    /// Create an instance from the underlying C Type.
-    /// - Parameter ctype: The underlying C Type to convert.
-    init(ctype: CType)
+    /// Test that the enum can be created from the relevant C type.
+    @Test
+    func testCTypeInit() {
+        #expect(FileMode(ctype: CSERIAL_READ) == .read)
+        #expect(FileMode(ctype: CSERIAL_WRITE) == .write)
+        #expect(FileMode(ctype: CSERIAL_READ_WRITE) == .readWrite)
+    }
 
 }
