@@ -3,6 +3,7 @@
         "cstdint": "c",
         "posix.h": "c",
         "types.h": "c",
-        "cserial.h": "c"
+        "cserial.h": "c",
+        "cserial_posix.h": "c"
     }
 }
