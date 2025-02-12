@@ -25,7 +25,8 @@ let package = Package(
         ),
         .testTarget(
             name: "SerialTests",
-            dependencies: [.target(name: "Serial"), .target(name: "CSerial")]
+            dependencies: [.target(name: "Serial"), .target(name: "CSerial")],
+            resources: [.copy("resources/port")]
         ),
     ]
 )
