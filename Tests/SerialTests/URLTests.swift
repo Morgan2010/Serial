@@ -1,4 +1,4 @@
-// URL+isLocalFile.swift
+// URLTests.swift
 // Serial
 //
 // Created by Morgan McColl.
@@ -53,14 +53,32 @@
 // or write to the Free Software Foundation, Inc., 51 Franklin Street,
 // Fifth Floor, Boston, MA  02110-1301, USA.
 
+import CSerial
 import Foundation
+@testable import Serial
+import Testing
 
-extension URL {
+/// A test suite for URL extensions
+@Suite
+struct URLTests {
 
-    var isLocalFile: Bool {
-        var isDirectory: ObjCBool = false
-        let fileExists = FileManager.default.fileExists(atPath: self.path, isDirectory: &isDirectory)
-        return fileExists && !isDirectory.boolValue
+    /// Test the `isLocalFile` computer property.
+    @Test
+    func testIsLocalFile() throws {
+        let loc1 = URL(fileURLWithPath: "/dev/null", isDirectory: false)
+        #expect(loc1.isLocalFile)
+        let loc2 = URL(fileURLWithPath: "/tmp", isDirectory: true)
+        #expect(!loc2.isLocalFile)
+        let loc3 = URL(fileURLWithPath: "/tmp", isDirectory: false)
+        #expect(!loc3.isLocalFile)
+        let loc4 = URL(fileURLWithPath: "/dev/null", isDirectory: true)
+        #expect(loc4.isLocalFile)
+        let loc5 = try #require(URL(string: "https://google.com"), nil)
+        #expect(!loc5.isLocalFile)
+        let loc6 = try #require(URL(string: "/dev/null"), nil)
+        #expect(loc6.isLocalFile)
+        let loc7 = try #require(URL(string: "/tmp"), nil)
+        #expect(!loc7.isLocalFile)
     }
 
 }
