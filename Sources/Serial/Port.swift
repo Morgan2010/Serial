@@ -77,16 +77,27 @@ public class Port: Equatable {
         lhs.handle == rhs.handle
     }
 
-    public func read(into buffer: UnsafeMutableBufferPointer<UInt8>) throws -> SIZE_TYPE {
-        try self.read(into: buffer.baseAddress!, size: SIZE_TYPE(buffer.count * MemoryLayout<UInt8>.stride))
+    public func read(into buffer: UnsafeMutableBufferPointer<UInt8>) throws -> Int {
+        guard let address = buffer.baseAddress else {
+            throw SerialError.bufferError
+        }
+        return try self.read(into: address, size: SIZE_TYPE(buffer.count * MemoryLayout<UInt8>.stride))
     }
 
-    public func read(into buffer: UnsafeMutablePointer<UInt8>, size: SIZE_TYPE) throws -> SIZE_TYPE {
-        CSERIAL_read_port(self.handle, buffer, size)
+    public func read(into buffer: UnsafeMutablePointer<UInt8>, size: Int) throws -> Int {
+        let result = CSERIAL_read_port(self.handle, buffer, SIZE_TYPE(size))
+        guard result >= 0 else {
+            throw SerialError.cerror
+        }
+        return Int(result)
     }
 
-    public func write(_ data: UnsafeMutablePointer<UInt8>, size: SIZE_TYPE) throws -> SIZE_TYPE {
-        CSERIAL_write_port(self.handle, data, size)
+    public func write(_ data: UnsafeMutablePointer<UInt8>, size: Int) throws -> Int {
+        let result = CSERIAL_write_port(self.handle, data, SIZE_TYPE(size))
+        guard result >= 0 else {
+            throw SerialError.cerror
+        }
+        return Int(result)
     }
 
     deinit {
