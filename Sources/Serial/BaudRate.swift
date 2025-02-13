@@ -66,6 +66,48 @@ public enum BaudRate: CTypeConvertible, Equatable, Hashable, Codable, Sendable, 
     /// A pre-defined baud rate.
     case predefined(value: PredefinedBaudRate)
 
+    /// A 110 baud rate.
+    public static let baud110 = BaudRate.predefined(value: .baud110)
+
+    /// A 300 baud rate.
+    public static let baud300 = BaudRate.predefined(value: .baud300)
+
+    /// A 600 baud rate.
+    public static let baud600 = BaudRate.predefined(value: .baud600)
+
+    /// A 1200 baud rate.
+    public static let baud1200 = BaudRate.predefined(value: .baud1200)
+
+    /// A 2400 baud rate.
+    public static let baud2400 = BaudRate.predefined(value: .baud2400)
+
+    /// A 4800 baud rate.
+    public static let baud4800 = BaudRate.predefined(value: .baud4800)
+
+    /// A 9600 baud rate.
+    public static let baud9600 = BaudRate.predefined(value: .baud9600)
+
+    /// A 14400 baud rate.
+    public static let baud14400 = BaudRate.predefined(value: .baud14400)
+
+    /// A 19200 baud rate.
+    public static let baud19200 = BaudRate.predefined(value: .baud19200)
+
+    /// A 38400 baud rate.
+    public static let baud38400 = BaudRate.predefined(value: .baud38400)
+
+    /// A 57600 baud rate.
+    public static let baud57600 = BaudRate.predefined(value: .baud57600)
+
+    /// A 115200 baud rate.
+    public static let baud115200 = BaudRate.predefined(value: .baud115200)
+
+    /// A 128000 baud rate.
+    public static let baud128000 = BaudRate.predefined(value: .baud128000)
+
+    /// A 256000 baud rate.
+    public static let baud256000 = BaudRate.predefined(value: .baud256000)
+
     /// The underlying C type.
     @inlinable public var ctype: CSERIAL_BAUDRATE_TYPE {
         switch self {
