@@ -60,7 +60,13 @@ public class Port: Equatable {
     let handle: HANDLE_TYPE
 
     var bytesAvailable: Int {
-        Int(CSERIAL_bytes_available(self.handle))
+        get throws {
+            let bytes = CSERIAL_bytes_available(self.handle)
+            guard bytes >= 0 else {
+                throw SerialError.cerror
+            }
+            return Int(bytes)
+        }
     }
 
     init(handle: HANDLE_TYPE) {
