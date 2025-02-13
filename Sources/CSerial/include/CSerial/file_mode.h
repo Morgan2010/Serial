@@ -60,6 +60,7 @@ extern "C" {
 #endif
 
 #include <stdint.h>
+#include <stdbool.h>
 
 typedef enum CSERIAL_FileMode {
     CSERIAL_READ = 0,

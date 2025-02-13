@@ -62,6 +62,9 @@
 extern "C" {
 #endif
 
+#include "file_mode.h"
+#include "types.h"
+
 int CSERIAL_posix_mode(CSERIAL_FILEMODE_TYPE mode);
 
 void CSERIAL_exit(int code);
