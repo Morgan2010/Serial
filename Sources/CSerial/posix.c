@@ -70,6 +70,7 @@
 #include <errno.h>
 #include <string.h>
 #include "include/CSerial/cserial_posix.h"
+#include <sys/ioctl.h>
 
 // Opens the specified serial port, configures its timeouts, and sets its
 // baud rate.  Returns a handle on success, or INVALID_HANDLE_VALUE on failure.
@@ -91,6 +92,14 @@ SIZE_TYPE CSERIAL_read_port(HANDLE_TYPE port, uint8_t * buffer, SIZE_TYPE size) 
 
 void CSERIAL_close_port(HANDLE_TYPE port) {
     close((int)(port));
+}
+
+SIZE_TYPE CSERIAL_bytes_available(HANDLE_TYPE port) {
+    int bytes_available;
+    const int result = ioctl(port, FIONREAD, &bytes_available);
+    if (result < 0)
+        return -1;
+    return (SIZE_TYPE)(bytes_available);
 }
 
 int CSERIAL_posix_mode(CSERIAL_FILEMODE_TYPE mode) {

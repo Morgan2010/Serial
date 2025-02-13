@@ -84,6 +84,9 @@ SIZE_TYPE CSERIAL_read_port(HANDLE_TYPE port, uint8_t * buffer, SIZE_TYPE size);
 /// Closes the specified handle to the serial port.
 void CSERIAL_close_port(HANDLE_TYPE port);
 
+/// Returns the number of bytes available to read from the serial port.
+SIZE_TYPE CSERIAL_bytes_available(HANDLE_TYPE);
+
 #if defined(__WIN32) || defined(WIN32)
 
 #else

@@ -59,6 +59,10 @@ public class Port: Equatable {
 
     let handle: HANDLE_TYPE
 
+    var bytesAvailable: Int {
+        Int(CSERIAL_bytes_available(self.handle))
+    }
+
     init(handle: HANDLE_TYPE) {
         self.handle = handle
     }
