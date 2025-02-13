@@ -1,4 +1,4 @@
-// PortManager.swift
+// URL+isLocalFile.swift
 // Serial
 //
 // Created by Morgan McColl.
@@ -53,64 +53,17 @@
 // or write to the Free Software Foundation, Inc., 51 Franklin Street,
 // Fifth Floor, Boston, MA  02110-1301, USA.
 
-import CSerial
 import Foundation
 
-public actor PortManager {
+extension URL {
 
-    struct PortReference: Equatable {
-
-        weak var port: Port?
-
-        let configuration: Configuration
-
-    }
-
-    static var ports: [URL: PortReference] = [:]
-
-    public static var openPorts: [URL] {
-        self.ports.keys.filter { PortManager.port(location: $0) != nil }
-    }
-
-    public static func configuration(at location: URL) -> Configuration? {
-        guard let reference = PortManager.ports[location], reference.port != nil else {
-            return nil
+    var isLocalFile: Bool {
+        guard self.isFileURL else {
+            return false
         }
-        return reference.configuration
-    }
-
-    public static func port(location: URL) -> Port? {
-        PortManager.ports[location]?.port
-    }
-
-    public static func open(location: URL, configuration: Configuration) async throws -> Port {
-        guard location.isLocalFile else {
-            throw SerialError.invalidResource
-        }
-        guard let reference = PortManager.ports[location], let port = reference.port else {
-            return try await PortManager.openPort(location: location, configuration: configuration)
-        }
-        guard reference.configuration == configuration else {
-            throw SerialError.resourceLocked
-        }
-        return port
-    }
-
-    public static func open(location: String, configuration: Configuration) async throws -> Port {
-        try await PortManager.open(
-            location: URL(fileURLWithPath: location, isDirectory: false),
-            configuration: configuration
-        )
-    }
-
-    static func openPort(location: URL, configuration: Configuration) async throws -> Port {
-        let handle = CSERIAL_open_serial_port(location.path.cString(using: .utf8), configuration.ctype)
-        guard handle >= 0 else {
-            throw SerialError.cerror
-        }
-        let port = Port(handle: handle)
-        PortManager.ports[location] = PortReference(port: port, configuration: configuration)
-        return port
+        var isDirectory: ObjCBool = false
+        let fileExists = FileManager.default.fileExists(atPath: self.path, isDirectory: &isDirectory)
+        return fileExists && !isDirectory.boolValue
     }
 
 }
