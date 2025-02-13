@@ -55,8 +55,13 @@
 
 import Foundation
 
+/// Add helper for identifying local files.
 extension URL {
 
+    /// Determine whether this URL points to a local file.
+    ///
+    /// This convenience property returns true when the URL points to a file that exists within the file
+    /// system and is not a directory.
     var isLocalFile: Bool {
         var isDirectory: ObjCBool = false
         let fileExists = FileManager.default.fileExists(atPath: self.path, isDirectory: &isDirectory)
