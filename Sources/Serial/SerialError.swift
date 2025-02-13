@@ -56,6 +56,9 @@
 /// Errors that can be thrown by the serial library.
 public enum SerialError: Error {
 
+    /// Buffer error
+    case bufferError
+
     /// The resource url is invalid.
     case invalidResource
 
