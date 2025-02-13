@@ -83,12 +83,12 @@ public actor PortManager {
         PortManager.ports[location]?.port
     }
 
-    public static func open(location: URL, configuration: Configuration) async throws -> Port {
+    public static func open(location: URL, configuration: Configuration) throws -> Port {
         guard location.isLocalFile else {
             throw SerialError.invalidResource
         }
         guard let reference = PortManager.ports[location], let port = reference.port else {
-            return try await PortManager.openPort(location: location, configuration: configuration)
+            return try PortManager.openPort(location: location, configuration: configuration)
         }
         guard reference.configuration == configuration else {
             throw SerialError.resourceLocked
@@ -96,14 +96,14 @@ public actor PortManager {
         return port
     }
 
-    public static func open(location: String, configuration: Configuration) async throws -> Port {
-        try await PortManager.open(
+    public static func open(location: String, configuration: Configuration) throws -> Port {
+        try PortManager.open(
             location: URL(fileURLWithPath: location, isDirectory: false),
             configuration: configuration
         )
     }
 
-    static func openPort(location: URL, configuration: Configuration) async throws -> Port {
+    static func openPort(location: URL, configuration: Configuration) throws -> Port {
         let handle = CSERIAL_open_serial_port(location.path.cString(using: .utf8), configuration.ctype)
         guard handle >= 0 else {
             throw SerialError.cerror
